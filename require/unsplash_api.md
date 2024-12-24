@@ -1,62 +1,74 @@
-# 기본 인증 방법
-client_id=YOUR_ACCESS_KEY 는 발급 받은 API Key를 적습니다.
+# Unsplash API 기본 가이드
+
+## 인증 (Authentication)
+
+### 기본 인증
+모든 API 요청에는 인증이 필요합니다. 가장 기본적인 인증 방법은 다음과 같습니다:
+
+# 1. Authorization 헤더 사용 (권장)
+Authorization: Client-ID YOUR_ACCESS_KEY
+
+# 2. URL 파라미터 사용
 https://api.unsplash.com/photos/?client_id=YOUR_ACCESS_KEY
 
+## 랜덤 이미지 API
 
-
-# 랜덤 이미지 불러오는 법
+### 기본 요청
 GET /photos/random
-GET 방식을 통해 주소를 불러옵니다.
-기존의 request에 /random 을 붙이면 됩니다.
+
+### 전체 URL 예시
 https://api.unsplash.com/photos/random?client_id=YOUR_ACCESS_KEY
 
+### 주요 파라미터
+| 파라미터 | 설명 | 예시 |
+|---------|------|------|
+| collections | 특정 컬렉션에서만 선택 (콤마로 구분) | `collections=123,456` |
+| topics | 특정 토픽에서만 선택 (콤마로 구분) | `topics=nature,water` |
+| username | 특정 사용자의 사진만 선택 | `username=johndoe` |
+| query | 검색어로 필터링 | `query=coffee` |
+| orientation | 사진 방향 필터링 (landscape/portrait/squarish) | `orientation=landscape` |
+| content_filter | 콘텐츠 안전도 (low/high) | `content_filter=low` |
+| count | 반환할 사진 수 (최대 30) | `count=10` |
 
+### 중요 참고사항
+- `collections`와 `topics`는 `query`와 동시에 사용할 수 없습니다
+- `count` 파라미터 사용시 항상 배열 형태로 응답이 반환됩니다
 
-# 파라미터
+## 응답 형식
 
-### Parameters Description
-
-All parameters are optional and can be combined to narrow the pool of photos from which a random one will be chosen:
-
-- **collections**: Filter the selection by public collection ID(s). If there are multiple IDs, separate them with commas.
-- **topics**: Filter the selection by public topic ID(s). If there are multiple IDs, separate them with commas.
-- **username**: Limit the selection to photos from a single user.
-- **query**: Limit the selection to photos that match a specific search term.
-- **orientation**: Filter by photo orientation. Valid values are `landscape`, `portrait`, or `squarish`.
-- **content_filter**: Limit results based on content safety. The default value is `low`, and valid options are `low` or `high`.
-- **count**: Specify the number of photos to return. The default is 1, and the maximum is 30.
-
-### Notes
-1. The `collections` and `topics` parameters cannot be used with the `query` parameter in the same request.
-2. When using the `count` parameter, the response will always be an array of photos, even if the `count` value is 1.
-
-
-# **Response 예시**
-
+### 기본 응답 구조
 {
-  "id": "pXhwzz1JtQU",
-  "updated_at": "2016-07-10T11:00:01-05:00",
-  "username": "jimmyexample",
-  "first_name": "James",
-  "last_name": "Example",
-  "twitter_username": "jimmy",
-  "portfolio_url": null,
-  "bio": "The user's bio",
-  "location": "Montreal, Qc",
-  "total_likes": 20,
-  "total_photos": 10,
-  "total_collections": 5,
-  "followed_by_user": false,
-  "downloads": 4321,
-  "uploads_remaining": 4,
-  "instagram_username": "james-example",
-  "location": null,
-  "email": "jim@example.com",
+  "id": "사진ID",
+  "created_at": "생성일자",
+  "updated_at": "수정일자",
+  "width": 이미지너비,
+  "height": 이미지높이,
+  "urls": {
+    "raw": "원본 이미지 URL",
+    "full": "전체 해상도 URL",
+    "regular": "일반 해상도 URL (1080px)",
+    "small": "작은 해상도 URL (400px)",
+    "thumb": "썸네일 URL (200px)"
+  },
+  "user": {
+    "id": "사용자ID",
+    "username": "사용자이름",
+    "name": "실제이름"
+  },
   "links": {
-    "self": "https://api.unsplash.com/users/jimmyexample",
-    "html": "https://unsplash.com/jimmyexample",
-    "photos": "https://api.unsplash.com/users/jimmyexample/photos",
-    "likes": "https://api.unsplash.com/users/jimmyexample/likes",
-    "portfolio": "https://api.unsplash.com/users/jimmyexample/portfolio"
+    "self": "API 엔드포인트",
+    "html": "웹페이지 URL",
+    "download": "다운로드 URL"
   }
 }
+
+### 이미지 URL 사용시 주의사항
+- 모든 이미지 URL은 동적으로 크기 조절이 가능합니다
+- `ixid` 파라미터는 반드시 유지해야 합니다 (통계 추적용)
+- 이미지 요청은 API 호출 제한에 포함되지 않습니다
+
+## 에러 처리
+- 401: 인증 오류
+- 403: 권한 부족
+- 404: 리소스 없음
+- 429: 요청 한도 초과

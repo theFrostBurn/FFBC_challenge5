@@ -75,7 +75,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
             },
           ),
           items: _promotions.map((promotion) {
-            return PromotionCard(promotion: promotion as Promotion);
+            return PromotionCard(promotion: promotion);
           }).toList(),
         ),
         const SizedBox(height: 8),

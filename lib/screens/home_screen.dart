@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:challenge5/widgets/category_grid.dart';
 import 'package:challenge5/widgets/promotion_slider.dart';
+import 'package:challenge5/widgets/restaurant_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             CategoryGrid(),
             SizedBox(height: 16),
             PromotionSlider(),
-            // 추후 추천 리스트가 추가될 예정
+            RestaurantList(),
           ],
         ),
       ),

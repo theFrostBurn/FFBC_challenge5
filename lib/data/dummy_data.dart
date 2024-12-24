@@ -54,32 +54,127 @@ final List<Category> dummyCategories = [
   ),
 ];
 
-Future<List<Restaurant>> getRestaurants() async {
-  final List<String> images =
-      await UnsplashService.getMultipleFoodImages(count: 2);
+Future<List<Restaurant>> getRestaurants({bool isPopular = true}) async {
+  // 인기 맛집용 이미지 5개
+  final List<String> topImages = await UnsplashService.getMultipleFoodImages(
+    query: 'gourmet restaurant food',
+    count: 5,
+  );
 
-  return [
+  // 실시간 주문용 이미지 5개
+  final List<String> trendingImages =
+      await UnsplashService.getMultipleFoodImages(
+    query: 'street food local',
+    count: 5,
+  );
+
+  final List<Restaurant> topRestaurants = [
     Restaurant(
       id: 'r1',
+      name: '미소 스시',
+      categoryId: 'c3',
+      imageUrl: topImages[0],
+      rating: 4.9,
+      deliveryTime: '20-30분',
+      minOrderAmount: 20000,
+      menuItems: ['모듬 스시', '연어 스시', '우동'],
+    ),
+    Restaurant(
+      id: 'r2',
+      name: '황금 짬뽕',
+      categoryId: 'c2',
+      imageUrl: topImages[1],
+      rating: 4.8,
+      deliveryTime: '20-30분',
+      minOrderAmount: 16000,
+      menuItems: ['짬뽕', '짜장면', '탕수육'],
+    ),
+    Restaurant(
+      id: 'r3',
+      name: '할매 순대국',
+      categoryId: 'c1',
+      imageUrl: topImages[2],
+      rating: 4.8,
+      deliveryTime: '15-25분',
+      minOrderAmount: 9000,
+      menuItems: ['순대국밥', '내장국밥', '공기밥'],
+    ),
+    Restaurant(
+      id: 'r4',
       name: '크런치 치킨 공방',
       categoryId: 'c5',
-      imageUrl: images[0],
-      rating: 4.8,
+      imageUrl: topImages[3],
+      rating: 4.7,
       deliveryTime: '30-40분',
       minOrderAmount: 15000,
       menuItems: ['후라이드 치킨', '양념 치킨', '간장 치킨'],
     ),
     Restaurant(
-      id: 'r2',
+      id: 'r5',
+      name: '달콤 디저트',
+      categoryId: 'c8',
+      imageUrl: topImages[4],
+      rating: 4.7,
+      deliveryTime: '20-30분',
+      minOrderAmount: 15000,
+      menuItems: ['티라미수', '초코케이크', '마카롱'],
+    ),
+  ];
+
+  final List<Restaurant> trendingRestaurants = [
+    Restaurant(
+      id: 'r6',
       name: '달인의 김밥천국',
       categoryId: 'c7',
-      imageUrl: images[1],
+      imageUrl: trendingImages[0],
       rating: 4.5,
       deliveryTime: '15-25분',
       minOrderAmount: 12000,
       menuItems: ['김밥', '라면', '떡볶이'],
     ),
+    Restaurant(
+      id: 'r7',
+      name: '마마 파스타',
+      categoryId: 'c4',
+      imageUrl: trendingImages[1],
+      rating: 4.6,
+      deliveryTime: '25-35분',
+      minOrderAmount: 13000,
+      menuItems: ['까르보나라', '알리오올리오', '토마토 파스타'],
+    ),
+    Restaurant(
+      id: 'r8',
+      name: '피자 파라다이스',
+      categoryId: 'c6',
+      imageUrl: trendingImages[2],
+      rating: 4.4,
+      deliveryTime: '30-40분',
+      minOrderAmount: 18000,
+      menuItems: ['페퍼로니 피자', '치즈 피자', '포테이토 피자'],
+    ),
+    Restaurant(
+      id: 'r9',
+      name: '왕돈까스',
+      categoryId: 'c4',
+      imageUrl: trendingImages[3],
+      rating: 4.6,
+      deliveryTime: '25-35분',
+      minOrderAmount: 11000,
+      menuItems: ['돈까스', '치즈돈까스', '카레돈까스'],
+    ),
+    Restaurant(
+      id: 'r10',
+      name: '떡볶이 천국',
+      categoryId: 'c7',
+      imageUrl: trendingImages[4],
+      rating: 4.5,
+      deliveryTime: '15-25분',
+      minOrderAmount: 12000,
+      menuItems: ['떡볶이', '순대', '튀김'],
+    ),
   ];
+
+  return isPopular ? topRestaurants : trendingRestaurants;
 }
 
 Future<List<Promotion>> getPromotions() async {
