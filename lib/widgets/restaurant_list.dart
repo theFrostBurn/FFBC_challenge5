@@ -28,7 +28,10 @@ class _RestaurantListState extends State<RestaurantList> {
         _isLoading = true;
       });
 
-      final restaurants = await getRestaurants(isPopular: _isFirstSelected);
+      final restaurants = await getRestaurants(
+        isPopular: _isFirstSelected,
+        isRecommended: !_isFirstSelected,
+      );
       if (mounted) {
         setState(() {
           _restaurants = restaurants;
@@ -84,18 +87,15 @@ class _RestaurantListState extends State<RestaurantList> {
         if (_isLoading)
           const Padding(
             padding: EdgeInsets.all(32.0),
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: CircularProgressIndicator(),
           )
         else
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            itemCount: _filteredRestaurants.length,
+            itemCount: _restaurants.length,
             itemBuilder: (context, index) {
-              return RestaurantCard(restaurant: _filteredRestaurants[index]);
+              return RestaurantCard(restaurant: _restaurants[index]);
             },
           ),
       ],

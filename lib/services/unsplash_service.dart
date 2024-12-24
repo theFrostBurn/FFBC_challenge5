@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show debugPrint;
+import 'dart:math';
 
 class UnsplashService {
   static const String _baseUrl = 'https://api.unsplash.com';
@@ -44,6 +45,10 @@ class UnsplashService {
         'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400',
     '디저트':
         'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=400',
+    '분식':
+        'https://images.unsplash.com/photo-1635963662853-f0ef27c0e0ac?auto=format&fit=crop&w=400',
+    '이모네분식':
+        'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=400',
   };
 
   // API 호출 횟수를 줄이기 위한 캐시
@@ -147,6 +152,13 @@ class UnsplashService {
         'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400',
         'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400',
       ],
+      'bunsik': [
+        'https://images.unsplash.com/photo-1635963662853-f0ef27c0e0ac?w=400',
+        'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400',
+        'https://images.unsplash.com/photo-1583187855495-d1f6a535a239?w=400',
+        'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=400',
+        'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400',
+      ],
     };
 
     // 쿼리에 따른 적절한 대체 이미지 리스트 선택
@@ -160,6 +172,8 @@ class UnsplashService {
         fallbackList = fallbackImages['japanese']!;
       } else if (query.contains('양식') || query.contains('western')) {
         fallbackList = fallbackImages['western']!;
+      } else if (query.contains('분식') || query.contains('bunsik')) {
+        fallbackList = fallbackImages['bunsik']!;
       }
     }
 

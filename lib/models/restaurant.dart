@@ -4,20 +4,24 @@ class Restaurant {
   final String id;
   final String name;
   final String categoryId;
-  final String imageUrl;
   final double rating;
-  final String deliveryTime;
+  final int reviewCount;
   final int minOrderAmount;
+  final int deliveryFee;
+  final String deliveryTime;
+  final String imageUrl;
   final List<MenuItem> menuItems;
 
-  Restaurant({
+  const Restaurant({
     required this.id,
     required this.name,
     required this.categoryId,
-    required this.imageUrl,
     required this.rating,
-    required this.deliveryTime,
+    required this.reviewCount,
     required this.minOrderAmount,
+    required this.deliveryFee,
+    required this.deliveryTime,
+    required this.imageUrl,
     required this.menuItems,
   });
 
@@ -26,10 +30,12 @@ class Restaurant {
       id: json['id'] as String,
       name: json['name'] as String,
       categoryId: json['categoryId'] as String,
-      imageUrl: json['imageUrl'] as String,
       rating: (json['rating'] as num).toDouble(),
-      deliveryTime: json['deliveryTime'] as String,
+      reviewCount: json['reviewCount'] as int,
       minOrderAmount: json['minOrderAmount'] as int,
+      deliveryFee: json['deliveryFee'] as int,
+      deliveryTime: json['deliveryTime'] as String,
+      imageUrl: json['imageUrl'] as String,
       menuItems: (json['menuItems'] as List)
           .map((item) => MenuItem.fromJson(item))
           .toList(),
@@ -41,11 +47,13 @@ class Restaurant {
       'id': id,
       'name': name,
       'categoryId': categoryId,
-      'imageUrl': imageUrl,
       'rating': rating,
-      'deliveryTime': deliveryTime,
+      'reviewCount': reviewCount,
       'minOrderAmount': minOrderAmount,
-      'menuItems': menuItems,
+      'deliveryFee': deliveryFee,
+      'deliveryTime': deliveryTime,
+      'imageUrl': imageUrl,
+      'menuItems': menuItems.map((item) => item.toJson()).toList(),
     };
   }
 }

@@ -34,7 +34,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
       });
 
       // 해당 카테고리의 음식점만 필터링
-      final allRestaurants = await getRestaurants(isPopular: true);
+      final allRestaurants = await getRestaurants();
       final categoryRestaurants = allRestaurants
           .where((r) => r.categoryId == widget.category.id)
           .toList();
