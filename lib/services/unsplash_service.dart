@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show debugPrint;
 
 class UnsplashService {
   static const String _baseUrl = 'https://api.unsplash.com';
@@ -8,24 +9,41 @@ class UnsplashService {
 
   // 카테고리별 기본 이미지 URL 맵
   static const Map<String, String> _defaultFoodImages = {
-    '순대국밥': 'https://images.unsplash.com/photo-1547592180-85f173990554?w=400',
-    '국밥': 'https://images.unsplash.com/photo-1547592180-85f173990554?w=400',
-    '쌀밥': 'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400',
-    '짬뽕': 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=400',
-    '짜장면': 'https://images.unsplash.com/photo-1534422298391-e4f8c172789a?w=400',
-    '탕수육': 'https://images.unsplash.com/photo-1525755662778-989d0524087e?w=400',
-    '토스트': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400',
-    '떡볶이': 'https://images.unsplash.com/photo-1635963662853-f0ef27c0e0ac?w=400',
-    '튀김': 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400',
+    '순대국밥':
+        'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=400',
+    '국밥':
+        'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=400',
+    '쌀밥':
+        'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&w=400',
+    '짬뽕':
+        'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=400',
+    '짜장면':
+        'https://images.unsplash.com/photo-1515669097368-22e68427d265?auto=format&fit=crop&w=400',
+    '탕수육':
+        'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=400',
+    '토스트':
+        'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=400',
+    '떡볶이':
+        'https://images.unsplash.com/photo-1635963662853-f0ef27c0e0ac?auto=format&fit=crop&w=400',
+    '튀김':
+        'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=400',
     // 추가 메뉴들의 기본 이미지
-    '치킨': 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400',
-    '피자': 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400',
-    '스시': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400',
-    '파스타': 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400',
-    '햄버거': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
-    '샐러드': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400',
-    '커피': 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400',
-    '디저트': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400',
+    '치킨':
+        'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=400',
+    '피자':
+        'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400',
+    '스시':
+        'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400',
+    '파스타':
+        'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=400',
+    '햄버거':
+        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400',
+    '샐러드':
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400',
+    '커피':
+        'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400',
+    '디저트':
+        'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=400',
   };
 
   // API 호출 횟수를 줄이기 위한 캐시
@@ -52,12 +70,13 @@ class UnsplashService {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        final imageUrl = '${data['urls']['regular']}?w=400'; // 이미지 크기 최적화
-        _imageCache[query ?? 'food'] = imageUrl; // 캐시에 저장
+        final imageUrl =
+            '${data['urls']['regular']}?auto=format&fit=crop&w=400';
+        _imageCache[query ?? 'food'] = imageUrl;
         return imageUrl;
       }
     } catch (e) {
-      print('Image loading error for $query: $e');
+      debugPrint('Image loading error for $query: $e');
     }
 
     // 4. 모든 것이 실패하면 기본 음식 이미지 반환
@@ -82,10 +101,13 @@ class UnsplashService {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        return data.map((item) => '${item['urls']['regular']}?w=400').toList();
+        return data
+            .map((item) =>
+                '${item['urls']['regular']}?auto=format&fit=crop&w=400')
+            .toList();
       }
     } catch (e) {
-      print('Multiple images loading error for $query: $e');
+      debugPrint('Multiple images loading error for $query: $e');
     }
 
     // 카테고리별 대체 이미지 맵

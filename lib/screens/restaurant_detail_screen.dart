@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:challenge5/models/restaurant.dart';
+import 'package:provider/provider.dart';
+import 'package:challenge5/providers/cart_provider.dart';
+import 'package:challenge5/screens/cart_screen.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant restaurant;
@@ -17,6 +20,14 @@ class RestaurantDetailScreen extends StatefulWidget {
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   int _totalAmount = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CartProvider>().setCurrentRestaurant(widget.restaurant);
+    });
+  }
+
   void _updateTotalAmount() {
     setState(() {
       _totalAmount = widget.restaurant.menuItems.fold<int>(
@@ -24,6 +35,34 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
         (sum, item) => sum + (item.price * item.quantity),
       );
     });
+  }
+
+  void _handleAddToCart() {
+    try {
+      for (var menu in widget.restaurant.menuItems) {
+        if (menu.quantity > 0) {
+          context.read<CartProvider>().addItem(
+                widget.restaurant,
+                menu,
+                quantity: menu.quantity,
+              );
+        }
+      }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CartScreen(),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -264,12 +303,12 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withAlpha(13),
                 blurRadius: 10,
                 offset: const Offset(0, -5),
               ),
@@ -333,22 +372,15 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                       ),
                     )
                   : ElevatedButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('장바구니 기능은 아직 준비중입니다.'),
-                          ),
-                        );
-                      },
+                      onPressed: () => _handleAddToCart(),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        minimumSize: const Size(double.infinity, 56),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        minimumSize: const Size(double.infinity, 56),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
