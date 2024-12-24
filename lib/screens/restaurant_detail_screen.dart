@@ -159,10 +159,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         ],
                       ),
                       Text(
-                        '배달시간 ${widget.restaurant.deliveryTime}',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 16,
+                        widget.restaurant.deliveryTime,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
                         ),
                       ),
                     ],

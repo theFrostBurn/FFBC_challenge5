@@ -85,14 +85,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: CupertinoColors.black.withOpacity(0.9),
+                            color: Colors.grey.withAlpha(128),
                           ),
                         ),
                         const SizedBox(height: 12),
                         Container(
                           decoration: BoxDecoration(
                             border:
-                                Border.all(color: CupertinoColors.systemGrey4),
+                                Border.all(color: Colors.grey.withAlpha(128)),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Column(
@@ -137,7 +137,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: CupertinoColors.black.withOpacity(0.9),
+                            color: Colors.grey.withAlpha(128),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -151,8 +151,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   '${item.menuItem.name} × ${item.quantity}',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color:
-                                        CupertinoColors.black.withOpacity(0.8),
+                                    color: Colors.grey.withAlpha(128),
                                   ),
                                 ),
                                 Text(
@@ -160,8 +159,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color:
-                                        CupertinoColors.black.withOpacity(0.9),
+                                    color: Colors.grey.withAlpha(128),
                                   ),
                                 ),
                               ],
@@ -179,7 +177,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               '배달비',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: CupertinoColors.black.withOpacity(0.8),
+                                color: Colors.grey.withAlpha(128),
                               ),
                             ),
                             Text(
@@ -187,7 +185,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: CupertinoColors.black.withOpacity(0.9),
+                                color: Colors.grey.withAlpha(128),
                               ),
                             ),
                           ],

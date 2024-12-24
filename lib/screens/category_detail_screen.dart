@@ -18,7 +18,7 @@ class CategoryDetailScreen extends StatefulWidget {
 
 class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   List<Restaurant> _restaurants = [];
-  bool _isLoading = true;
+  bool _isLoading = false;
   String _sortBy = 'rating'; // 'rating' or 'minOrder'
 
   @override
@@ -33,23 +33,20 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
         _isLoading = true;
       });
 
-      // 해당 카테고리의 음식점만 필터링
-      final allRestaurants = await getRestaurants();
-      final categoryRestaurants = allRestaurants
-          .where((r) => r.categoryId == widget.category.id)
-          .toList();
+      final restaurants = await getRestaurants(
+        categoryId: widget.category.id,
+        sortBy: _sortBy,
+      );
 
-      if (mounted) {
-        setState(() {
-          _restaurants = categoryRestaurants;
-          _isLoading = false;
-        });
-      }
+      setState(() {
+        _restaurants = restaurants;
+        _isLoading = false;
+      });
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('음식점 정보를 불러오는데 실패했습니다: $e'),
@@ -61,14 +58,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   }
 
   void _sortRestaurants() {
-    setState(() {
-      if (_sortBy == 'rating') {
-        _restaurants.sort((a, b) => b.rating.compareTo(a.rating));
-      } else {
-        _restaurants
-            .sort((a, b) => a.minOrderAmount.compareTo(b.minOrderAmount));
-      }
-    });
+    _loadRestaurants();
   }
 
   @override

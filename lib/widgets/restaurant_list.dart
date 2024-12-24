@@ -32,17 +32,16 @@ class _RestaurantListState extends State<RestaurantList> {
         isPopular: _isFirstSelected,
         isRecommended: !_isFirstSelected,
       );
-      if (mounted) {
-        setState(() {
-          _restaurants = restaurants;
-          _isLoading = false;
-        });
-      }
+
+      setState(() {
+        _restaurants = restaurants;
+        _isLoading = false;
+      });
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('음식점 정보를 불러오는데 실패했습니다: $e'),
@@ -50,17 +49,6 @@ class _RestaurantListState extends State<RestaurantList> {
           ),
         );
       }
-    }
-  }
-
-  List<Restaurant> get _filteredRestaurants {
-    if (_isFirstSelected) {
-      // 평점 순으로 정렬
-      return List.from(_restaurants)
-        ..sort((a, b) => b.rating.compareTo(a.rating));
-    } else {
-      // 임의로 섞어서 반환 (실제로는 실시간 주문 데이터 기반으로 구현)
-      return List.from(_restaurants)..shuffle();
     }
   }
 
