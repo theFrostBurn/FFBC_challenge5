@@ -1,3 +1,5 @@
+import 'package:challenge5/models/menu_item.dart';
+
 class Restaurant {
   final String id;
   final String name;
@@ -6,7 +8,7 @@ class Restaurant {
   final double rating;
   final String deliveryTime;
   final int minOrderAmount;
-  final List<String> menuItems;
+  final List<MenuItem> menuItems;
 
   Restaurant({
     required this.id,
@@ -28,8 +30,9 @@ class Restaurant {
       rating: (json['rating'] as num).toDouble(),
       deliveryTime: json['deliveryTime'] as String,
       minOrderAmount: json['minOrderAmount'] as int,
-      menuItems:
-          (json['menuItems'] as List).map((item) => item as String).toList(),
+      menuItems: (json['menuItems'] as List)
+          .map((item) => MenuItem.fromJson(item))
+          .toList(),
     );
   }
 
