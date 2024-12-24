@@ -1,6 +1,7 @@
 import 'package:challenge5/models/category.dart';
 import 'package:challenge5/models/promotion.dart';
 import 'package:challenge5/models/restaurant.dart';
+import 'package:challenge5/services/unsplash_service.dart';
 
 final List<Category> dummyCategories = [
   Category(
@@ -53,36 +54,78 @@ final List<Category> dummyCategories = [
   ),
 ];
 
-final List<Restaurant> dummyRestaurants = [
-  Restaurant(
-    id: 'r1',
-    name: '크런치 치킨 공방',
-    categoryId: 'c5',
-    imageUrl: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec',
-    rating: 4.8,
-    deliveryTime: '30-40분',
-    minOrderAmount: 15000,
-    menuItems: ['후라이드 치킨', '양념 치킨', '간장 치킨'],
-  ),
-  Restaurant(
-    id: 'r2',
-    name: '달인의 김밥천국',
-    categoryId: 'c7',
-    imageUrl: 'https://images.unsplash.com/photo-1580651315530-69c8e0026377',
-    rating: 4.5,
-    deliveryTime: '15-25분',
-    minOrderAmount: 12000,
-    menuItems: ['김밥', '라면', '떡볶이'],
-  ),
-];
+Future<List<Restaurant>> getRestaurants() async {
+  final List<String> images =
+      await UnsplashService.getMultipleFoodImages(count: 2);
 
-final List<Promotion> dummyPromotions = [
-  Promotion(
-    id: 'p1',
-    title: '신규 가입 이벤트',
-    description: '첫 주문 3,000원 할인',
-    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
-    discountAmount: 3000,
-    validUntil: DateTime.now().add(const Duration(days: 30)),
-  ),
-];
+  return [
+    Restaurant(
+      id: 'r1',
+      name: '크런치 치킨 공방',
+      categoryId: 'c5',
+      imageUrl: images[0],
+      rating: 4.8,
+      deliveryTime: '30-40분',
+      minOrderAmount: 15000,
+      menuItems: ['후라이드 치킨', '양념 치킨', '간장 치킨'],
+    ),
+    Restaurant(
+      id: 'r2',
+      name: '달인의 김밥천국',
+      categoryId: 'c7',
+      imageUrl: images[1],
+      rating: 4.5,
+      deliveryTime: '15-25분',
+      minOrderAmount: 12000,
+      menuItems: ['김밥', '라면', '떡볶이'],
+    ),
+  ];
+}
+
+Future<List<Promotion>> getPromotions() async {
+  final List<String> images =
+      await UnsplashService.getMultipleFoodImages(count: 5);
+
+  return [
+    Promotion(
+      id: 'p1',
+      title: '신규 가입 이벤트',
+      description: '첫 주문 3,000원 할인',
+      imageUrl: images[0],
+      discountAmount: 3000,
+      validUntil: DateTime.now().add(const Duration(days: 30)),
+    ),
+    Promotion(
+      id: 'p2',
+      title: '크런치 치킨 공방 할인',
+      description: '15,000원 이상 주문시 2,000원 할인',
+      imageUrl: images[1],
+      discountAmount: 2000,
+      validUntil: DateTime.now().add(const Duration(days: 7)),
+    ),
+    Promotion(
+      id: 'p3',
+      title: '점심 특별 할인',
+      description: '11:00-14:00 주문시 배달비 무료',
+      imageUrl: images[2],
+      discountAmount: 3000,
+      validUntil: DateTime.now().add(const Duration(days: 14)),
+    ),
+    Promotion(
+      id: 'p4',
+      title: '프리미엄 회원 혜택',
+      description: '모든 주문 10% 추가 할인',
+      imageUrl: images[3],
+      discountAmount: 0, // 퍼센트 할인
+      validUntil: DateTime.now().add(const Duration(days: 365)),
+    ),
+    Promotion(
+      id: 'p5',
+      title: '설날 특별 이벤트',
+      description: '명절 음식 주문시 5,000원 할인',
+      imageUrl: images[4],
+      discountAmount: 5000,
+      validUntil: DateTime.now().add(const Duration(days: 10)),
+    ),
+  ];
+}

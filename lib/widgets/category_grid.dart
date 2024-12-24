@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:challenge5/models/category.dart';
 import 'package:challenge5/data/dummy_data.dart';
 import 'package:challenge5/widgets/category_item.dart';
 
