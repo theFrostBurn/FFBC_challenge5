@@ -1,24 +1,24 @@
 # 개발 체크리스트
 
-## Flag 1/8: 프로젝트 초기 설정
+## Flag 1/8: 프로젝트 초기 설정 ✅
 - [x] Flutter 프로젝트 생성 (challenge5)
 - [x] 기본 디렉토리 구조 설정
-- [ ] 필요한 패키지 추가:
-  - [ ] cupertino_icons: ^1.0.8
-  - [ ] carousel_slider: ^4.2.1 (프로모션 카드용)
-  - [ ] http: ^1.2.0 (Unsplash API 통신용)
-  - [ ] cached_network_image: ^3.3.1 (이미지 캐싱)
-  - [ ] provider: ^6.1.1 (상태 관리)
-- [ ] assets 폴더 생성 및 pubspec.yaml 설정
-- [ ] 기본 테마 및 색상 설정
+- [x] 필요한 패키지 추가:
+  - [x] cupertino_icons: ^1.0.8
+  - [x] carousel_slider: ^4.2.1 (프로모션 카드용)
+  - [x] http: ^1.2.0 (Unsplash API 통신용)
+  - [x] cached_network_image: ^3.3.1 (이미지 캐싱)
+  - [x] provider: ^6.1.1 (상태 관리)
+- [x] assets 폴더 생성 및 pubspec.yaml 설정
+- [x] 기본 테마 및 색상 설정
 
-## Flag 2/8: 기본 모델 클래스 구현
-- [ ] Category 모델 구현
-- [ ] Restaurant 모델 구현
-- [ ] Promotion 모델 구현
-- [ ] 더미 데이터 생성
+## Flag 2/8: 기본 모델 클래스 구현 ✅
+- [x] Category 모델 구현
+- [x] Restaurant 모델 구현
+- [x] Promotion 모델 구현
+- [x] 더미 데이터 생성
 
-## Flag 3/8: 메인 화면 - 상단 영역
+## Flag 3/8: 메인 화면 - 상단 영역 (진행 중)
 - [ ] AppBar 구현 (FOODIGO 로고)
 - [ ] 검색 버튼 구현
 - [ ] 카테고리 그리드 위젯 구현

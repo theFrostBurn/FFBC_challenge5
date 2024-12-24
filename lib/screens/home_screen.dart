@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:challenge5/widgets/category_grid.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,10 +21,12 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text(
-          '초기 설정 완료!',
-          style: TextStyle(fontSize: 20),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            CategoryGrid(),
+            // 추후 프로모션 카드와 추천 리스트가 추가될 예정
+          ],
         ),
       ),
     );
