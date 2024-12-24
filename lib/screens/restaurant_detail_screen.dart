@@ -331,7 +331,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         ),
                       ),
                       Text(
-                        '${_totalAmount}원',
+                        '$_totalAmount원',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -388,7 +388,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                           const Icon(Icons.shopping_cart_outlined, size: 20),
                           const SizedBox(width: 8),
                           Text(
-                            '${_totalAmount}원 장바구니에 담기',
+                            '$_totalAmount원 장바구니에 담기',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

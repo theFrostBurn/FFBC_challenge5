@@ -13,6 +13,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   PaymentMethod? _selectedMethod;
+  bool _isProcessing = false;
 
   final List<PaymentMethod> _paymentMethods = [
     const PaymentMethod(
@@ -85,14 +86,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey.withAlpha(128),
+                            color: CupertinoColors.black,
                           ),
                         ),
                         const SizedBox(height: 12),
                         Container(
                           decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey.withAlpha(128)),
+                            border: Border.all(
+                              color: CupertinoColors.systemGrey3,
+                              width: 1.0,
+                            ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Column(
@@ -137,7 +140,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey.withAlpha(128),
+                            color: CupertinoColors.black,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -149,17 +152,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               children: [
                                 Text(
                                   '${item.menuItem.name} × ${item.quantity}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
-                                    color: Colors.grey.withAlpha(128),
+                                    color: CupertinoColors.black,
                                   ),
                                 ),
                                 Text(
                                   '${item.totalPrice}원',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.grey.withAlpha(128),
+                                    color: CupertinoColors.black,
                                   ),
                                 ),
                               ],
@@ -168,24 +171,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Divider(),
+                          child: Divider(
+                            color: CupertinoColors.systemGrey3,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               '배달비',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.grey.withAlpha(128),
+                                color: CupertinoColors.black,
                               ),
                             ),
                             Text(
                               '3,000원',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.grey.withAlpha(128),
+                                color: CupertinoColors.black,
                               ),
                             ),
                           ],
@@ -209,6 +214,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
+                                color: CupertinoColors.black,
                               ),
                             ),
                             Text(
@@ -216,7 +222,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
-                                color: CupertinoColors.systemIndigo,
+                                color: CupertinoColors.activeBlue,
                               ),
                             ),
                           ],
@@ -228,46 +234,105 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             color: CupertinoColors.systemIndigo,
                             borderRadius: BorderRadius.circular(25),
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            onPressed: () {
-                              showCupertinoDialog(
-                                context: context,
-                                builder: (context) => CupertinoAlertDialog(
-                                  title: const Text('결제 완료'),
-                                  content: const Text(
-                                    '결제가 완료되었습니다.\n어디로 이동하시겠습니까?',
+                            onPressed: _isProcessing
+                                ? null
+                                : () async {
+                                    setState(() {
+                                      _isProcessing = true;
+                                    });
+
+                                    // 결제 처리 중 로딩 표시
+                                    showCupertinoDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (context) => Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(24),
+                                          decoration: BoxDecoration(
+                                            color: CupertinoColors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const CupertinoActivityIndicator(
+                                                radius: 14,
+                                              ),
+                                              const SizedBox(height: 16),
+                                              const Text(
+                                                '결제 처리 중...',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: CupertinoColors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+
+                                    // 3초 대기
+                                    await Future.delayed(
+                                        const Duration(seconds: 2));
+
+                                    // 로딩 다이얼로그 닫기
+                                    Navigator.pop(context);
+
+                                    // 결제 완료 다이얼로그 표시
+                                    showCupertinoDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          CupertinoAlertDialog(
+                                        title: const Text('결제 완료'),
+                                        content: const Text(
+                                          '결제가 완료되었습니다.\n어디로 이동하시겠습니까?',
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: const Text('목록으로'),
+                                            onPressed: () {
+                                              Navigator.pop(
+                                                  context); // 다이얼로그 닫기
+                                              Navigator.pop(
+                                                  context); // 결제 화면 닫기
+                                              Navigator.pop(
+                                                  context); // 장바구니 화면 닫기
+                                            },
+                                          ),
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            child: const Text('홈으로'),
+                                            onPressed: () {
+                                              Navigator.pop(
+                                                  context); // 다이얼로그 닫기
+                                              Navigator.popUntil(
+                                                context,
+                                                (route) => route.isFirst,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
+                                    setState(() {
+                                      _isProcessing = false;
+                                    });
+                                  },
+                            child: _isProcessing
+                                ? const CupertinoActivityIndicator(
+                                    color: CupertinoColors.white,
+                                  )
+                                : const Text(
+                                    '결제하기',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: CupertinoColors.white,
+                                    ),
                                   ),
-                                  actions: [
-                                    CupertinoDialogAction(
-                                      child: const Text('목록으로'),
-                                      onPressed: () {
-                                        Navigator.pop(context); // 다이얼로그 닫기
-                                        Navigator.pop(context); // 결제 화면 닫기
-                                        Navigator.pop(context); // 장바구니 화면 닫기
-                                      },
-                                    ),
-                                    CupertinoDialogAction(
-                                      isDefaultAction: true,
-                                      child: const Text('홈으로'),
-                                      onPressed: () {
-                                        Navigator.pop(context); // 다이얼로그 닫기
-                                        Navigator.popUntil(
-                                          context,
-                                          (route) => route.isFirst,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              '결제하기',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: CupertinoColors.white,
-                              ),
-                            ),
                           ),
                         ),
                       ],
