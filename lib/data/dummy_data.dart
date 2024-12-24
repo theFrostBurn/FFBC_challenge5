@@ -467,19 +467,22 @@ final List<Restaurant> dummyRestaurants = [
     minOrderAmount: 12000,
     deliveryFee: 2000,
     deliveryTime: '15-25분',
-    imageUrl: UnsplashService.defaultFoodImages['이모네분식']!,
+    imageUrl:
+        'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=400',
     menuItems: [
       MenuItem(
         name: '떡볶이',
         price: 4500,
         description: '매콤달콤한 떡볶이',
-        imageUrl: UnsplashService.defaultFoodImages['떡볶이']!,
+        imageUrl:
+            'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=400',
       ),
       MenuItem(
         name: '김밥',
         price: 3500,
         description: '신선한 김밥',
-        imageUrl: UnsplashService.defaultFoodImages['김밥']!,
+        imageUrl:
+            'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=400',
       ),
     ],
   ),
@@ -593,19 +596,22 @@ final List<Restaurant> dummyRestaurants = [
     minOrderAmount: 12000,
     deliveryFee: 2000,
     deliveryTime: '15-25분',
-    imageUrl: UnsplashService.defaultFoodImages['떡볶이']!,
+    imageUrl:
+        'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=400',
     menuItems: [
       MenuItem(
         name: '엽기떡볶이',
         price: 14000,
         description: '매운맛 떡볶이',
-        imageUrl: UnsplashService.defaultFoodImages['떡볶이']!,
+        imageUrl:
+            'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=400',
       ),
       MenuItem(
         name: '치즈김밥',
         price: 5000,
         description: '치즈가 들어간 김밥',
-        imageUrl: UnsplashService.defaultFoodImages['김밥']!,
+        imageUrl:
+            'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=400',
       ),
     ],
   ),
